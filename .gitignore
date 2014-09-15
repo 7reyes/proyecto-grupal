@@ -1,0 +1,183 @@
+package electronic.settlement.of.salary;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+public class ElectronicSettlementOfSalary {
+
+    public static void main(String[] args) throws IOException {
+
+        boolean privilegio;
+        do {
+            privilegio = validarIngreso();
+            menuOpciones(privilegio);
+
+        } while (privilegio);
+
+    }
+
+    public static boolean validarIngreso() {
+        Scanner leer = new Scanner(System.in);
+        String usuario = "17765345", contrasenaUsuario = "6255";
+        String administrador = "16876345", contrasenaAdministrador = "8374";
+        String ingresoContrasena = " ", ingresoNumero = " ";
+        do {
+            try {
+                System.out.println("Ingrese su numero de usuario");
+                ingresoNumero = leer.next();
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese solo numeros");
+            }
+        } while (!(ingresoNumero.equals(administrador) || ingresoNumero.equals(usuario)));
+        do {
+            try {
+                System.out.println("Ingrese su coantraseña");
+                ingresoContrasena = leer.next();
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese solo numeros");
+            }
+        } while (!(ingresoContrasena.equals(contrasenaAdministrador) || ingresoContrasena.equals(contrasenaUsuario)));
+        return ingresoNumero.equals(administrador);
+    }
+
+    public static int menuOpciones(boolean privilegio) throws IOException {
+        int eleccion = 0;
+
+        Scanner sc = new Scanner(System.in);
+        do {
+
+            System.out.println("Bienvenido a Electronic Settlement of Salary ");
+            System.out.println("1.- Mostrar Liquidacion");
+            if (privilegio) {
+                System.out.println("2.- Modificar Liquiedacion");
+                System.out.println("3.- Salir.\n");
+            } else {
+                System.out.println("3.- Salir.\n");
+            }
+
+            try {
+                System.out.print("Escoja  la acción a realizár: ");
+                eleccion = Integer.parseInt(sc.next());
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: caracter invalido");
+            }
+            int[] cuentas = seleccionCuentas();
+            switch (eleccion) {
+                case 1:
+                    mostrarLiquidacion(cuentas);
+                    break;
+                case 2:
+                    modificarLiquidacion(cuentas);
+                    break;
+                case 3:
+                    System.out.println("Gracias por su preferencia");
+                    break;
+
+            }
+            System.out.println("Presione Enter para continuar");
+            System.in.read();
+        } while (eleccion != 3);
+
+        return eleccion;
+
+    }
+
+    private static int[] seleccionCuentas() {
+        Scanner sc = new Scanner(System.in);
+        int numero = 0;
+        /* Este método deviese permitir seleccionar los numeros de las cuentas con las que se desea trabajar*/
+        int[] cuentas = new int[numero];
+        return cuentas;
+    }
+
+    private static void mostrarLiquidacion(int[] cuentas) {
+        /* Este método mostrará una interfáz con todos los datos de una liquidacion*/
+    }
+
+    private static void modificarLiquidacion(int[] cuentas) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int eleccion = 0;
+        do {
+            System.out.println("1.- Abonar");
+            System.out.println("2.- Descontar");
+            System.out.println("3.- Cancelar.\n");
+            try {
+                System.out.print("Escoja  la acción a realizár: ");
+                eleccion = Integer.parseInt(sc.next());
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: caracter invalido");
+            }
+            switch (eleccion) {
+                case 1:
+                    abonar();
+                    break;
+                case 2:
+                    descontar();
+                    break;
+
+            }
+            System.out.println("Presione Enter para continuar");
+            System.in.read();
+        } while (eleccion != 3);
+    }
+
+    private static void abonar() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int abono = 0;
+        do {
+            try {
+                System.out.print("Ingrese el valor del abono: ");
+                abono = Integer.parseInt(sc.next());
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: caracter invalido");
+            }
+        } while (abono <= 0);
+        motivoModificacion(abono);
+
+    }
+
+    private static void descontar() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int descuento = 0;
+        do {
+            try {
+                System.out.print("Ingrese el valor del descuento: ");
+                descuento = Integer.parseInt(sc.next());
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: caracter invalido");
+            }
+        } while (descuento <= 0);
+        motivoModificacion(-descuento);
+
+    }
+
+    private static void motivoModificacion(int valor) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        String operacion = "descuento";
+        if (valor > 0) {
+            operacion = "abono";
+        }
+        System.out.println("Ingrese el motivo del " + operacion);
+        String motivo = sc.next();
+        int confirmacion = 0;
+        System.out.println("¿Desea guardar los cambios?");
+        System.out.println("1.- Si");
+        System.out.println("2.- No");
+        try {
+            System.out.print("Escoja  la acción a realizár: ");
+            confirmacion = Integer.parseInt(sc.next());
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR: caracter invalido");
+        }
+        System.out.println("Presione Enter para continuar");
+        System.in.read();
+        if (confirmacion == 0) {
+            almacenarLiquidacion(valor, motivo);
+        }
+    }
+
+    private static void almacenarLiquidacion(int valor, String motivo) {
+        
+    }
+
+}
